@@ -14,8 +14,8 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
 	return [
 		'username' => $faker->username,
-		'password' => $faker->password,
-		'email' => $faker->email,
+		'password' => md5(123456),
+		'email' => $faker->unique()->email,
 		'firstname' => $faker->firstname,
 		'lastname' => $faker->lastname,
 		'active' => rand(0, 1),
