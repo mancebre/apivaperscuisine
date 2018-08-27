@@ -9,7 +9,10 @@ use Firebase\JWT\JWT;
 class JwtMiddleware {
 	public function handle($request, Closure $next, $guard = null) {
 		// TODO Move token to header, like in python version.
-		$token = $request->get('token');
+		$token = $request->header('Authorization');
+		// Prepare token
+        $token = str_replace('Token ', '', $token);
+        $token = str_replace('"', '', $token);
 
 		if (!$token) {
 			// Unauthorized response if token not there
@@ -26,6 +29,7 @@ class JwtMiddleware {
 		} catch (Exception $e) {
 			return response()->json([
 				'error' => 'An error while decoding token.',
+                'token' => $token
 			], 400);
 		}
 		$user = User::find($credentials->sub);

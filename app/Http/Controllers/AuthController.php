@@ -68,7 +68,7 @@ class AuthController extends BaseController {
 			], 400);
 		}
 		// Verify the password and generate the token
-		if (md5($this->request->input('password')) === $user->password) {
+		if ($this->request->input('password') === $user->password) {
 			return response()->json([
 				'token' => $this->jwt($user),
 			], 200);
