@@ -14,18 +14,20 @@ class RecipeController extends Controller {
 		return response()->json($recipes);
 	}
 	public function create(Request $request) {
+		$nicotine = json_decode($request->nicotine);
+		// return response()->json($nicotine->strength);
 		$recipe = new Recipe;
 		$recipe->name = $request->name;
 		$recipe->desired_strength = $request->desired_strength;
 		$recipe->pg = $request->pg;
 		$recipe->vg = $request->vg;
-		$recipe->nicotine_strength = $request->nicotine_strength;
-		$recipe->nicotine_pg = $request->nicotine_pg;
+		$recipe->nicotine_strength = $nicotine->strength;
+		$recipe->nicotine_pg = $nicotine->pg;
 		$recipe->amount = $request->amount;
-		$recipe->nicotine_vg = $request->nicotine_vg;
+		$recipe->nicotine_vg = $nicotine->vg;
 		$recipe->wvpga = $request->wvpga;
 		$recipe->sleep_time = $request->sleep_time;
-		$recipe->vape_ready = $request->vape_ready;
+		$recipe->vape_ready = $request->vapeReady;
 		$recipe->comment = $request->comment;
 
 		$recipe->save();
