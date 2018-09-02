@@ -8,7 +8,6 @@ use Firebase\JWT\JWT;
 
 class JwtMiddleware {
 	public function handle($request, Closure $next, $guard = null) {
-		// TODO Move token to header, like in python version.
 		$token = $request->header('Authorization');
 		// Prepare token
         $token = str_replace('Token ', '', $token);

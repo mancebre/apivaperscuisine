@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration {
 			$table->string('username');
 			$table->string('password');
 			$table->string('email')->unique();
+            //$table->string('email'); // db:seed on MariaDB must go with this line
 			$table->string('firstname');
 			$table->string('lastname');
 			$table->integer('active');
