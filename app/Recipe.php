@@ -28,4 +28,11 @@ class Recipe extends Model implements AuthenticatableContract, AuthorizableContr
 	protected $hidden = [
 
 	];
+
+	protected $table = 'recipes';
+
+    public function recipeFlavors()
+    {
+        return $this->hasMany('App\RecipeFlavors');
+    }
 }

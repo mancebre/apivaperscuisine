@@ -77,7 +77,7 @@ class RecipeController extends Controller {
 			$recipe->comment = $request->input('comment');
 		}
 
-		$user->save();
+        $recipe->save();
 		return response()->json($recipe);
 	}
 	public function destroy($id) {

@@ -8,7 +8,8 @@ class RecipesTableSeeder extends Seeder {
 	 *
 	 * @return void
 	 */
-	public function run() {
-		$users = factory(App\Recipe::class, 10)->create();
+	public function run()
+    {
+		$recipes = factory(App\Recipe::class, 10)->create();
 	}
 }
