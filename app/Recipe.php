@@ -33,6 +33,6 @@ class Recipe extends Model implements AuthenticatableContract, AuthorizableContr
 
     public function recipeFlavors()
     {
-        return $this->hasMany('App\RecipeFlavors');
+        return $this->hasMany('App\RecipeFlavors', 'recipe_id');
     }
 }

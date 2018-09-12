@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Recipe;
+use App\RecipeFlavors;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller {
@@ -10,12 +11,13 @@ class RecipeController extends Controller {
 	 * @return void
 	 */
 	public function index() {
-		$recipes = Recipe::all();
+        $recipes = Recipe::with('recipeFlavors')->get();
+
 		return response()->json($recipes);
 	}
 	public function create(Request $request) {
-		$nicotine = json_decode($request->nicotine);
-		// return response()->json($nicotine->strength);
+        $nicotine = json_decode($request->nicotine);
+        $flavors = json_decode($request->flavor);
 		$recipe = new Recipe;
 		$recipe->name = $request->name;
 		$recipe->desired_strength = $request->desired_strength;
@@ -31,10 +33,29 @@ class RecipeController extends Controller {
 		$recipe->comment = $request->comment;
 
 		$recipe->save();
+
+		// Not sure this is right way to do this.
+		foreach ($flavors as $flavor) {
+
+            $recipe->recipeFlavors()->saveMany([
+                new RecipeFlavors([
+                    "recipe_id"=>$recipe->id,
+                    "percentage"=>$flavor->percentage,
+                    "amount"=>$flavor->amount,
+                    "grams"=>$flavor->grams,
+                    "type"=>$flavor->type,
+                    "name"=>$flavor->name
+                ])
+            ]);
+
+        }
+
 		return response()->json($recipe);
 	}
 	public function show($id) {
-		$recipe = Recipe::find($id);
+		$recipe = Recipe::with('RecipeFlavors')->find($id);
+		// Why do I have to do this??
+//		$recipe->flavors = RecipeFlavors::owned($id);
 		return response()->json($recipe);
 	}
 	public function update(Request $request, $id) {

@@ -33,6 +33,6 @@ class RecipeFlavors extends Model implements AuthenticatableContract, Authorizab
 
     public function recipe()
     {
-        return $this->belongsTo('App\Recipe', 'recipe_id');
+        return $this->belongsTo('App\Recipe');
     }
 }

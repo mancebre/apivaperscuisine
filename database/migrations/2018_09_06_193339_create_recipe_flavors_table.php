@@ -15,13 +15,17 @@ class CreateRecipeFlavorsTable extends Migration
     {
         Schema::create('recipe_flavors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('recipe_id');
+            $table->integer('recipe_id')->unsigned();
             $table->string('name');
             $table->integer('amount');
             $table->integer('percentage');
             $table->string('type');
             $table->integer('grams');
             $table->timestamps();
+
+            $table->foreign('recipe_id')
+                ->references('id')
+                ->on('recipes');
         });
     }
 
@@ -30,8 +34,7 @@ class CreateRecipeFlavorsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('recipe_flavors');
     }
 }
