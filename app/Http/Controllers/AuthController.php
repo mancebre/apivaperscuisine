@@ -45,12 +45,14 @@ class AuthController extends BaseController {
 		// be used to decode the token in the future.
 		return JWT::encode($payload, env('JWT_SECRET'));
 	}
-	/**
-	 * Authenticate a user and return the token if the provided credentials are correct.
-	 *
-	 * @param  \App\User   $user
-	 * @return mixed
-	 */
+
+    /**
+     * Authenticate a user and return the token if the provided credentials are correct.
+     *
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
 	public function authenticate(User $user) {
 		$this->validate($this->request, [
 			'email' => 'required|email',
@@ -78,4 +80,17 @@ class AuthController extends BaseController {
 			'error' => 'Email or password is wrong.',
 		], 400);
 	}
+
+    /**
+     * @param $request
+     * @return object
+     */
+	public static function getCurrentUser($request) {
+        $token = $request->header('Authorization');
+        // Prepare token
+        $token = str_replace('Token ', '', $token);
+        $token = str_replace('"', '', $token);
+
+        return JWT::decode($token, env('JWT_SECRET'), ['HS256']);
+    }
 }

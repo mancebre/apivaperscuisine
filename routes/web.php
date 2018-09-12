@@ -46,6 +46,8 @@ $router->group(
         $router->get('/recipe/{id}', 'RecipeController@show');
         $router->put('/recipe/{id}', 'RecipeController@update');
         $router->delete('/recipe/{id}', 'RecipeController@destroy');
+
+        $router->get('/myRecipes', 'RecipeController@userRecipes');
     }
 );
 

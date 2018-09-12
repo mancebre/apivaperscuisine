@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Recipe;
 use App\RecipeFlavors;
 use Illuminate\Http\Request;
+//use App\Http\Controllers\AuthController;
 
 class RecipeController extends Controller {
 	/**
@@ -15,6 +16,22 @@ class RecipeController extends Controller {
 
 		return response()->json($recipes);
 	}
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function userRecipes(Request $request) {
+	    // TODO Continue here after user roles are implemented.
+        $user = AuthController::getCurrentUser($request);
+
+        return response()->json($user);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function create(Request $request) {
         $nicotine = json_decode($request->nicotine);
         $flavors = json_decode($request->flavor);
@@ -52,12 +69,23 @@ class RecipeController extends Controller {
 
 		return response()->json($recipe);
 	}
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function show($id) {
 		$recipe = Recipe::with('RecipeFlavors')->find($id);
 		// Why do I have to do this??
 //		$recipe->flavors = RecipeFlavors::owned($id);
 		return response()->json($recipe);
 	}
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function update(Request $request, $id) {
 		$recipe = Recipe::find($id);
 
@@ -101,6 +129,11 @@ class RecipeController extends Controller {
         $recipe->save();
 		return response()->json($recipe);
 	}
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function destroy($id) {
 		$recipe = Recipe::find($id);
 		$recipe->delete();
