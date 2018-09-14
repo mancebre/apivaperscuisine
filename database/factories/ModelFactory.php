@@ -37,6 +37,7 @@ $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
         'sleep_time' => rand(0, 25),
         'vape_ready' => rand(0, 1),
         'comment' => $faker->text,
+        'user_id' => factory(App\User::class)->create()->id,
     ];
 });
 

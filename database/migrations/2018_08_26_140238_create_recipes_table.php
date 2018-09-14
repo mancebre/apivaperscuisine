@@ -25,7 +25,12 @@ class CreateRecipesTable extends Migration {
 			$table->integer('sleep_time');
 			$table->integer('vape_ready');
 			$table->longText('comment');
+            $table->integer('user_id')->unsigned();
 			$table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
 		});
 	}
 
