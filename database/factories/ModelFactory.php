@@ -1,5 +1,8 @@
 <?php
 
+use App\User;
+use App\Recipe;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,15 +15,22 @@
  */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
-	return [
-		'username' => $faker->username,
-		'password' => md5(123456),
-		'email' => $faker->unique()->email,
-		'firstname' => $faker->firstname,
-		'lastname' => $faker->lastname,
-		'active' => rand(0, 1),
-		'newsletter' => rand(0, 1),
-	];
+    return [
+        'username' => $faker->username,
+        'password' => md5(123456),
+        'email' => $faker->unique()->email,
+        'firstname' => $faker->firstname,
+        'lastname' => $faker->lastname,
+        'active' => rand(0, 1),
+        'newsletter' => rand(0, 1),
+    ];
+});
+
+$factory->define(App\UserRoles::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => User::all()->random()->id,
+        'role_id' => 3, // User
+    ];
 });
 
 $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
@@ -37,7 +47,7 @@ $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
         'sleep_time' => rand(0, 25),
         'vape_ready' => rand(0, 1),
         'comment' => $faker->text,
-        'user_id' => factory(App\User::class)->create()->id,
+        'user_id' => User::all()->random()->id,
     ];
 });
 
@@ -45,7 +55,7 @@ $factory->define(App\RecipeFlavors::class, function (Faker\Generator $faker) {
     $types = array('pg', 'vg');
     $rand_keys = array_rand($types, 1);
     return [
-        'recipe_id' => factory(App\Recipe::class)->create()->id,
+        'recipe_id' => Recipe::all()->random()->id,
         'name' => "Flavor" . rand(1, 50),
         'amount' => rand(0, 100),
         'percentage' => rand(0, 100),

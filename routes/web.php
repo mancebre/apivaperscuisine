@@ -29,6 +29,7 @@
 // 	$router->delete('/recipe/{id}', 'RecipeController@destroy');
 // });
 
+// Logged in users
 $router->group(
     [
         'middleware' => 'jwt.auth',
@@ -51,6 +52,7 @@ $router->group(
     }
 );
 
+// Accessible without login
 $router->group(
     [
 //        'middleware' => 'cors',

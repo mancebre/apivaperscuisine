@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class UserRoles extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'user_id', 'role_id'
     ];
 
     /**
@@ -27,16 +27,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password',
+
     ];
 
-    public function recipes()
+    public function user()
     {
-        return $this->hasMany('App\Recipe', 'user_id');
+        return $this->belongsTo('App\Users', 'user_id');
     }
 
-    public function userRoles()
+    public function role()
     {
-        return $this->hasMany('App\UserRoles');
+        return $this->belongsTo('App\Role', 'role_id');
     }
 }
