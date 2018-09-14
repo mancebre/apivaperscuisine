@@ -4,6 +4,7 @@ use App\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use App\UserRoles;
 
 class AuthController extends BaseController {
 	/**
@@ -28,6 +29,9 @@ class AuthController extends BaseController {
 	 * @return string
 	 */
 	protected function jwt(User $user) {
+
+        $User = new UserRolesController;
+
 		$payload = [
 			'iss' => "vaperscuisine", // Issuer of the token
 			'sub' => $user->email, // Subject of the token
@@ -36,7 +40,7 @@ class AuthController extends BaseController {
 			'lastname' => $user->lastname,
 			'username' => $user->username,
 			'email' => $user->email,
-			'roles' => $user->roles,
+			'roles' => $User->getUserRoles($user->id),
 			'iat' => time(), // Time when JWT was issued.
 			'exp' => time() + 60 * 60, // Expiration time
 		];

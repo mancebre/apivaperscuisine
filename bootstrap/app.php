@@ -67,6 +67,10 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
 ]);
 
+$app->routeMiddleware([
+    'myAuth' => App\Http\Middleware\MyAuth::class,
+]);
+
 // $app->middleware([
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);

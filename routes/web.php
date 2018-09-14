@@ -32,12 +32,11 @@
 // Logged in users
 $router->group(
     [
-        'middleware' => 'jwt.auth',
+        'middleware' => ['jwt.auth', 'myAuth'],
         'prefix' => 'api/v1'
     ],
     function () use ($router) {
         $router->get('/users', 'UserController@index');
-        $router->post('/user', 'UserController@create');
         $router->get('/user/{id}', 'UserController@show');
         $router->put('/user/{id}', 'UserController@update');
         $router->delete('/user/{id}', 'UserController@destroy');
@@ -61,6 +60,7 @@ $router->group(
     function () use ($router) {
         // Login
         $router->post('auth/login', 'AuthController@authenticate');
+        $router->post('/user', 'UserController@create');
     }
 );
 

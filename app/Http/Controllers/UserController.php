@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\User;
+use App\UserRoles;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
@@ -13,6 +14,11 @@ class UserController extends Controller {
 		$users = User::all();
 		return response()->json($users);
 	}
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function create(Request $request) {
 		$user = new User;
 		$user->username = $request->username;
@@ -20,16 +26,35 @@ class UserController extends Controller {
 		$user->email = $request->email;
 		$user->firstname = $request->firstname;
 		$user->lastname = $request->lastname;
-		$user->active = $request->active;
+		$user->active = 0;
 		$user->newsletter = $request->newsletter;
 
 		$user->save();
+
+        $user->userRoles()->saveMany([
+            new UserRoles([
+                "user_id"=>$user->id,
+                "role_id"=>3, // Regular user.
+            ])
+        ]);
+
 		return response()->json($user);
 	}
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function show($id) {
 		$user = User::find($id);
 		return response()->json($user);
 	}
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function update(Request $request, $id) {
 		$user = User::find($id);
 
@@ -58,6 +83,11 @@ class UserController extends Controller {
 		$user->save();
 		return response()->json($user);
 	}
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function destroy($id) {
 		$user = User::find($id);
 		$user->delete();

@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 use App\Recipe;
 use App\RecipeFlavors;
 use Illuminate\Http\Request;
-//use App\Http\Controllers\AuthController;
 
 class RecipeController extends Controller {
 	/**
@@ -18,14 +17,16 @@ class RecipeController extends Controller {
 	}
 
     /**
+     * Get all recipes with flavor made by this user.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
 	public function userRecipes(Request $request) {
-	    // TODO Continue here after user roles are implemented.
         $user = AuthController::getCurrentUser($request);
+        $recipes = Recipe::with(['recipeFlavors'])->where('user_id', $user->user_id)->get();
 
-        return response()->json($user);
+        return response()->json($recipes);
     }
 
     /**
@@ -33,6 +34,8 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function create(Request $request) {
+        $user = AuthController::getCurrentUser($request);
+
         $nicotine = json_decode($request->nicotine);
         $flavors = json_decode($request->flavor);
 		$recipe = new Recipe;
@@ -47,7 +50,8 @@ class RecipeController extends Controller {
 		$recipe->wvpga = $request->wvpga;
 		$recipe->sleep_time = $request->sleep_time;
 		$recipe->vape_ready = $request->vapeReady;
-		$recipe->comment = $request->comment;
+        $recipe->comment = $request->comment;
+        $recipe->user_id = $user->user_id;
 
 		$recipe->save();
 
