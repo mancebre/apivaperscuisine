@@ -42,7 +42,8 @@ class AuthController extends BaseController {
 			'email' => $user->email,
 			'roles' => $User->getUserRoles($user->id),
 			'iat' => time(), // Time when JWT was issued.
-			'exp' => time() + 60 * 60, // Expiration time
+            'exp' => time() + 60 * 60 * 24, // Expiration time
+//            'exp' => time() + 60, // Expiration time
 		];
 
 		// As you can see we are passing `JWT_SECRET` as the second parameter that will

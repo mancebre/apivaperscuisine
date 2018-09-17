@@ -24,12 +24,12 @@ class JwtMiddleware {
 		} catch (ExpiredException $e) {
 			return response()->json([
 				'error' => 'Provided token is expired.',
-			], 400);
+			], 401);
 		} catch (Exception $e) {
 			return response()->json([
 				'error' => 'An error while decoding token.',
                 'token' => $token
-			], 400);
+			], 401);
 		}
 		$user = User::find($credentials->sub);
 		// Now let's put the user in the request class so that you can grab it from there
