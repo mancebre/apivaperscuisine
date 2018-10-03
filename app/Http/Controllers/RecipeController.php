@@ -130,6 +130,46 @@ class RecipeController extends Controller {
 			$recipe->comment = $request->input('comment');
 		}
 
+        $inputFlavors = json_decode($request->input('flavor'));
+
+		// Update flavors if there are flavors
+        if(count($inputFlavors) > 0) {
+            foreach ($inputFlavors as $flavor) {
+                if (isset($flavor->id)) {
+                    // Flavors that have id needs to be updated.
+                    $recipeFlavor = RecipeFlavors::find($flavor->id);
+
+                    $recipeFlavor->recipe_id = $id;
+                    $recipeFlavor->name = $flavor->name;
+                    $recipeFlavor->amount = $flavor->amount;
+                    $recipeFlavor->percentage = $flavor->percentage;
+                    $recipeFlavor->type = $flavor->type;
+                    $recipeFlavor->grams = $flavor->grams;
+
+                    $recipeFlavor->save();
+                } else  {
+                    // Flavors that doesnt have id are new and need to be added.
+                    $recipeFlavor = new RecipeFlavors;
+
+                    $recipeFlavor->recipe_id = $id;
+                    $recipeFlavor->name = $flavor->name;
+                    $recipeFlavor->amount = $flavor->amount;
+                    $recipeFlavor->percentage = $flavor->percentage;
+                    $recipeFlavor->type = $flavor->type;
+                    $recipeFlavor->grams = $flavor->grams;
+
+                    $recipeFlavor->save();
+                }
+            }
+
+            if (count($inputFlavors) < count($recipe->recipeFlavors)) {
+                // Delete removed flavors from database
+                $removedFlavors = $this->calculateRemovedFlavors($recipe->recipeFlavors, $inputFlavors);
+                RecipeFlavors::destroy($removedFlavors);
+            }
+
+        }
+
         $recipe->save();
 		return response()->json($recipe);
 	}
@@ -143,4 +183,28 @@ class RecipeController extends Controller {
 		$recipe->delete();
 		return response()->json('recipe removed successfully');
 	}
+
+    /**
+     * @param $old
+     * @param $new
+     * @return array
+     */
+    private function calculateRemovedFlavors($old, $new) {
+	    $newIds = array();
+	    $oldIds = array();
+
+        foreach ($old as $item) {
+            if(isset($item->id)) {
+                $oldIds[] = $item->id;
+            }
+	    }
+
+        foreach ($new as $item) {
+            if(isset($item->id)) {
+                $newIds[] = $item->id;
+            }
+	    }
+
+	    return array_diff($oldIds, $newIds);
+    }
 }
