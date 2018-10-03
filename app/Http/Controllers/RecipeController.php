@@ -126,9 +126,12 @@ class RecipeController extends Controller {
 		if ($request->input('sleep_time')) {
 			$recipe->sleep_time = $request->input('sleep_time');
 		}
-		if ($request->input('comment')) {
-			$recipe->comment = $request->input('comment');
-		}
+        if ($request->input('comment')) {
+            $recipe->comment = $request->input('comment');
+        }
+        if ($request->input('vapeReady')) {
+            $recipe->vape_ready = $request->input('vapeReady');
+        }
 
         $inputFlavors = json_decode($request->input('flavor'));
 
