@@ -63,3 +63,11 @@ $factory->define(App\RecipeFlavors::class, function (Faker\Generator $faker) {
         'grams' => rand(0, 25)
     ];
 });
+
+$factory->define(App\Rating::class, function (Faker\Generator $faker) {
+    return [
+        'recipe_id' => Recipe::all()->random()->id,
+        'user_id' => User::all()->random()->id,
+        'rating' => rand(1, 5)
+    ];
+});

@@ -40,4 +40,9 @@ class Recipe extends Model implements AuthenticatableContract, AuthorizableContr
     {
         return $this->belongsTo('App\User');
     }
+
+    public function rating()
+    {
+        return $this->hasMany('App\Rating');
+    }
 }

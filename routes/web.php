@@ -48,6 +48,12 @@ $router->group(
         $router->delete('/recipe/{id}', 'RecipeController@destroy');
 
         $router->get('/myRecipes', 'RecipeController@userRecipes');
+
+        $router->get('/ratings', 'RatingController@index');
+        $router->post('/rating', 'RatingController@create');
+        $router->get('/rating/{id}', 'RatingController@show');
+        $router->put('/rating/{id}', 'RatingController@update');
+        $router->delete('/rating/{id}', 'RatingController@destroy');
     }
 );
 
