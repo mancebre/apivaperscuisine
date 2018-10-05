@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Rating;
 use App\Recipe;
 use App\RecipeFlavors;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class RecipeController extends Controller {
      */
 	public function userRecipes(Request $request) {
         $user = AuthController::getCurrentUser($request);
-        $recipes = Recipe::with(['recipeFlavors'])->where('user_id', $user->user_id)->get();
+        $recipes = Recipe::with(['recipeFlavors'])->with('rating')->where('user_id', $user->user_id)->get();
 
         return response()->json($recipes);
     }

@@ -36,11 +36,17 @@ $router->group(
         'prefix' => 'api/v1'
     ],
     function () use ($router) {
+        /**
+         * Users
+         */
         $router->get('/users', 'UserController@index');
         $router->get('/user/{id}', 'UserController@show');
         $router->put('/user/{id}', 'UserController@update');
         $router->delete('/user/{id}', 'UserController@destroy');
 
+        /**
+         * Recipe
+         */
         $router->get('/recipes', 'RecipeController@index');
         $router->post('/recipe', 'RecipeController@create');
         $router->get('/recipe/{id}', 'RecipeController@show');
@@ -49,6 +55,9 @@ $router->group(
 
         $router->get('/myRecipes', 'RecipeController@userRecipes');
 
+        /**
+         * Rating
+         */
         $router->get('/ratings', 'RatingController@index');
         $router->post('/rating', 'RatingController@create');
         $router->get('/rating/{id}', 'RatingController@show');
