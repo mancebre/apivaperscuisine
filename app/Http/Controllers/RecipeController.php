@@ -53,6 +53,7 @@ class RecipeController extends Controller {
 		$recipe->vape_ready = $request->vapeReady;
         $recipe->comment = $request->comment;
         $recipe->user_id = $user->user_id;
+        $recipe->private = $request->private;
 
 		$recipe->save();
 
@@ -130,9 +131,12 @@ class RecipeController extends Controller {
         if ($request->input('comment')) {
             $recipe->comment = $request->input('comment');
         }
-        if ($request->input('vapeReady')) {
+//        if ($request->input('vapeReady')) {
             $recipe->vape_ready = $request->input('vapeReady');
-        }
+//        }
+//        if ($request->input('private')) {
+            $recipe->private = $request->input('private');
+//        }
 
         $inputFlavors = json_decode($request->input('flavor'));
 

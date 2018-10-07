@@ -48,6 +48,7 @@ $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
         'vape_ready' => rand(0, 1),
         'comment' => $faker->text,
         'user_id' => User::all()->random()->id,
+        'private' => rand(0, 1),
     ];
 });
 

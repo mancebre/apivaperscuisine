@@ -23,9 +23,10 @@ class CreateRecipesTable extends Migration {
 			$table->integer('nicotine_vg');
 			$table->integer('wvpga');
 			$table->integer('sleep_time');
-			$table->integer('vape_ready');
+			$table->boolean('vape_ready');
 			$table->longText('comment');
             $table->integer('user_id')->unsigned();
+            $table->boolean(('private'));
 			$table->timestamps();
 
             $table->foreign('user_id')
