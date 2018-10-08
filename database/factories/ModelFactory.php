@@ -34,17 +34,26 @@ $factory->define(App\UserRoles::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
+
+    $name = "";
+    $pg = rand(0, 100);
+    $vg = rand(0, 100);
+    $desiredStrenght = rand(0, 20);
+
+    $name .= $pg . "/" . $vg . ", ";
+    $name .= $desiredStrenght . " mg";
+
     return [
-        'name' => $faker->name,
-        'amount' => rand(0, 100),
-        'desired_strength' => rand(0, 100),
-        'pg' => rand(0, 100),
-        'vg' => rand(0, 100),
+        'name' => $name,
+        'amount' => rand(10, 1000),
+        'desired_strength' => $desiredStrenght,
+        'pg' => $pg,
+        'vg' => $vg,
         'nicotine_strength' => rand(0, 100),
         'nicotine_pg' => rand(0, 100),
         'nicotine_vg' => rand(0, 100),
-        'wvpga' => rand(0, 100),
-        'sleep_time' => rand(0, 25),
+        'wvpga' => rand(0, 20),
+        'sleep_time' => rand(0, 40),
         'vape_ready' => rand(0, 1),
         'comment' => $faker->text,
         'user_id' => User::all()->random()->id,

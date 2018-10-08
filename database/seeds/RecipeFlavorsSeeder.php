@@ -11,6 +11,6 @@ class RecipeFlavorsSeeder extends Seeder
      */
     public function run()
     {
-        $recipesFlavors = factory(App\RecipeFlavors::class, 50)->create();
+        $recipesFlavors = factory(App\RecipeFlavors::class, 100)->create();
     }
 }

@@ -10,6 +10,6 @@ class RecipesTableSeeder extends Seeder {
 	 */
 	public function run()
     {
-		$recipes = factory(App\Recipe::class, 10)->create();
+		$recipes = factory(App\Recipe::class, 100)->create();
 	}
 }
