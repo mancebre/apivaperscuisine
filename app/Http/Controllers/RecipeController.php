@@ -6,16 +6,27 @@ use App\RecipeFlavors;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller {
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
+    /**
+     * Create a new controller instance.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
 	public function index() {
         $recipes = Recipe::with('recipeFlavors')->get();
 
 		return response()->json($recipes);
 	}
+
+    /**
+     * Return all public recipes
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+	public function getAllRecipes() {
+	    $recipes = Recipe::where('private', 0)->get();
+
+        return response()->json($recipes);
+    }
 
     /**
      * Get all recipes with flavor made by this user.
