@@ -23,7 +23,7 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function getAllRecipes() {
-	    $recipes = Recipe::where('private', 0)->get();
+	    $recipes = Recipe::with(['recipeFlavors'])->with('rating')->with('user')->where('private', 0)->get();
 
         return response()->json($recipes);
     }
@@ -104,7 +104,14 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function update(Request $request, $id) {
+        $user = AuthController::getCurrentUser($request);
 		$recipe = Recipe::find($id);
+
+		if ($user->user_id !== $recipe->user_id) {
+
+            return response("You can only edit your own recipes", 403);
+
+        }
 
 		if ($request->input('name')) {
 			$recipe->name = $request->input('name');
