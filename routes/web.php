@@ -54,7 +54,6 @@ $router->group(
         $router->delete('/recipe/{id}', 'RecipeController@destroy');
 
         $router->get('/myRecipes', 'RecipeController@userRecipes');
-        $router->get('/getAllRecipes', 'RecipeController@getAllRecipes');
 
         /**
          * Rating
@@ -77,6 +76,7 @@ $router->group(
         // Login
         $router->post('auth/login', 'AuthController@authenticate');
         $router->post('/user', 'UserController@create');
+        $router->get('/getAllRecipes', 'RecipeController@getAllRecipes');
     }
 );
 

@@ -92,7 +92,7 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function show($id) {
-		$recipe = Recipe::with('RecipeFlavors')->find($id);
+		$recipe = Recipe::with('RecipeFlavors')->with('user')->find($id);
 		// Why do I have to do this??
 //		$recipe->flavors = RecipeFlavors::owned($id);
 		return response()->json($recipe);
