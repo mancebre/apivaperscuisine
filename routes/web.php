@@ -49,7 +49,6 @@ $router->group(
          */
         $router->get('/recipes', 'RecipeController@index');
         $router->post('/recipe', 'RecipeController@create');
-        $router->get('/recipe/{id}', 'RecipeController@show');
         $router->put('/recipe/{id}', 'RecipeController@update');
         $router->delete('/recipe/{id}', 'RecipeController@destroy');
 
@@ -77,6 +76,7 @@ $router->group(
         $router->post('auth/login', 'AuthController@authenticate');
         $router->post('/user', 'UserController@create');
         $router->get('/getAllRecipes', 'RecipeController@getAllRecipes');
+        $router->get('/recipe/{id}', 'RecipeController@show');
     }
 );
 
