@@ -12,7 +12,7 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function index() {
-        $recipes = Recipe::with('recipeFlavors')->get();
+        $recipes = Recipe::with('recipeFlavors')->where('deleted', 0)->get();
 
 		return response()->json($recipes);
 	}
@@ -23,7 +23,11 @@ class RecipeController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function getAllRecipes() {
-	    $recipes = Recipe::with(['recipeFlavors'])->with('rating')->with('user')->where('private', 0)->get();
+	    $recipes = Recipe::with(['recipeFlavors'])
+            ->with('rating')->with('user')
+            ->where('private', 0)
+            ->where('deleted', 0)
+            ->get();
 
         return response()->json($recipes);
     }
@@ -36,7 +40,11 @@ class RecipeController extends Controller {
      */
 	public function userRecipes(Request $request) {
         $user = AuthController::getCurrentUser($request);
-        $recipes = Recipe::with(['recipeFlavors'])->with('rating')->where('user_id', $user->user_id)->get();
+        $recipes = Recipe::with(['recipeFlavors'])
+            ->with('rating')
+            ->where('user_id', $user->user_id)
+            ->where('deleted', 0)
+            ->get();
 
         return response()->json($recipes);
     }
@@ -206,7 +214,9 @@ class RecipeController extends Controller {
      */
 	public function destroy($id) {
 		$recipe = Recipe::find($id);
-		$recipe->delete();
+//		$recipe->delete(); // Data is money!!!
+        $recipe->deleted = false;
+        $recipe->save();
 		return response()->json('recipe removed successfully');
 	}
 

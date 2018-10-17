@@ -27,6 +27,7 @@ class CreateRecipesTable extends Migration {
 			$table->longText('comment');
             $table->integer('user_id')->unsigned();
             $table->boolean(('private'));
+            $table->boolean(('deleted'));
 			$table->timestamps();
 
             $table->foreign('user_id')
