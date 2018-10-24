@@ -96,6 +96,6 @@ class AuthController extends BaseController {
         $token = str_replace('Token ', '', $token);
         $token = str_replace('"', '', $token);
 
-        return JWT::decode($token, env('JWT_SECRET'), ['HS256']);
+        return $token ? JWT::decode($token, env('JWT_SECRET'), ['HS256']) : null;
     }
 }

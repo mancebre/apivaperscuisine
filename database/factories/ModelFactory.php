@@ -82,3 +82,13 @@ $factory->define(App\Rating::class, function (Faker\Generator $faker) {
         'rating' => rand(1, 5)
     ];
 });
+
+$factory->define(App\Issues::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => User::all()->random()->id,
+        'text' => $faker->text,
+        'reportBack' => $faker->unique()->email,
+        'resolved' => false,
+        'group_id' => 123 // If we want to group issues someday...
+    ];
+});

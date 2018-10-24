@@ -77,6 +77,9 @@ $router->group(
         $router->post('/user', 'UserController@create');
         $router->get('/getAllRecipes', 'RecipeController@getAllRecipes');
         $router->get('/recipe/{id}', 'RecipeController@show');
+
+        // Bug report
+        $router->post('/issueReport', 'IssuesController@create');
     }
 );
 
