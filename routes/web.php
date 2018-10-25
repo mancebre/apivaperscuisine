@@ -74,7 +74,9 @@ $router->group(
     function () use ($router) {
         // Login
         $router->post('auth/login', 'AuthController@authenticate');
+        // Register
         $router->post('/user', 'UserController@create');
+
         $router->get('/getAllRecipes', 'RecipeController@getAllRecipes');
         $router->get('/recipe/{id}', 'RecipeController@show');
 

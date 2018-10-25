@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\UserRoles;
 
@@ -75,7 +76,7 @@ class AuthController extends BaseController {
 			], 400);
 		}
 		// Verify the password and generate the token
-		if ($this->request->input('password') === $user->password) {
+        if (Hash::check( $this->request->input('password'), $user->password)) {
 			return response()->json([
 				'token' => $this->jwt($user),
 			], 200);

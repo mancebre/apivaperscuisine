@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\UserRoles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
 	/**
@@ -22,7 +23,7 @@ class UserController extends Controller {
 	public function create(Request $request) {
 		$user = new User;
 		$user->username = $request->username;
-		$user->password = $request->password;
+		$user->password = Hash::make($request->password);
 		$user->email = $request->email;
 		$user->firstname = $request->firstname;
 		$user->lastname = $request->lastname;
@@ -62,7 +63,7 @@ class UserController extends Controller {
 			$user->username = $request->input('username');
 		}
 		if ($request->input('password')) {
-			$user->username = $request->input('password');
+			$user->username = Hash::make($request->input('password'));
 		}
 		if ($request->input('email')) {
 			$user->username = $request->input('email');

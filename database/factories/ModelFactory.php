@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Recipe;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ use App\Recipe;
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->username,
-        'password' => md5(123456),
+        'password' => Hash::make(123456),
         'email' => $faker->unique()->email,
         'firstname' => $faker->firstname,
         'lastname' => $faker->lastname,
