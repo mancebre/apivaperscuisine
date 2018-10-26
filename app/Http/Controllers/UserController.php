@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\UserRoles;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,25 +22,32 @@ class UserController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 	public function create(Request $request) {
-		$user = new User;
-		$user->username = $request->username;
-		$user->password = Hash::make($request->password);
-		$user->email = $request->email;
-		$user->firstname = $request->firstname;
-		$user->lastname = $request->lastname;
-		$user->active = 0;
-		$user->newsletter = $request->newsletter;
+        // Check if this email is already in use.
+        $emailCheck = User::where('email', $request->email)->first();
 
-		$user->save();
+        if ($emailCheck) {
+            return response()->make("Email you entered is already in use.", 400);
+        } else {
+            $user = new User;
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $user->email = $request->email;
+            $user->firstname = $request->firstname;
+            $user->lastname = $request->lastname;
+            $user->active = 0;
+            $user->newsletter = $request->newsletter;
 
-        $user->userRoles()->saveMany([
-            new UserRoles([
-                "user_id"=>$user->id,
-                "role_id"=>3, // Regular user.
-            ])
-        ]);
+            $user->save();
 
-		return response()->json($user);
+            $user->userRoles()->saveMany([
+                new UserRoles([
+                    "user_id"=>$user->id,
+                    "role_id"=>3, // Regular user.
+                ])
+            ]);
+
+            return response()->make("Thank you. You have successfully redistricted new account.");
+        }
 	}
 
     /**
