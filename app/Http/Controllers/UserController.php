@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Recipe;
 use App\User;
 use App\UserRoles;
 use http\Env\Response;
@@ -19,14 +20,43 @@ class UserController extends Controller {
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function usernameCheck(Request $request) {
+        $usernameCheck = User::where('username', $request->username)->first();
+        if ($usernameCheck) {
+            return response()->make("Username you entered is already in use.", 400);
+        } else {
+            return response()->make("");
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function emailCheck(Request $request) {
+        $emailCheck = User::where('email', $request->email)->first();
+        if ($emailCheck) {
+            return response()->make("Email you entered is already in use.", 400);
+        } else {
+            return response()->make("");
+        }
+    }
+
+    /**
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
 	public function create(Request $request) {
         // Check if this email is already in use.
         $emailCheck = User::where('email', $request->email)->first();
+        $usernameCheck = User::where('email', $request->username)->first();
 
         if ($emailCheck) {
             return response()->make("Email you entered is already in use.", 400);
+        } elseif ($usernameCheck) {
+            return response()->make("Username you entered is already in use.", 400);
         } else {
             $user = new User;
             $user->username = $request->username;
