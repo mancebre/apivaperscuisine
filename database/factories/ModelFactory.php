@@ -39,15 +39,15 @@ $factory->define(App\Recipe::class, function (Faker\Generator $faker) {
     $name = "";
     $pg = rand(0, 100);
     $vg = rand(0, 100);
-    $desiredStrenght = rand(0, 20);
+    $desiredStrength = rand(0, 20);
 
     $name .= $pg . "/" . $vg . ", ";
-    $name .= $desiredStrenght . " mg";
+    $name .= $desiredStrength . " mg";
 
     return [
         'name' => $name,
         'amount' => rand(10, 1000),
-        'desired_strength' => $desiredStrenght,
+        'desired_strength' => $desiredStrength,
         'pg' => $pg,
         'vg' => $vg,
         'nicotine_strength' => rand(0, 100),
@@ -70,7 +70,7 @@ $factory->define(App\RecipeFlavors::class, function (Faker\Generator $faker) {
         'recipe_id' => Recipe::all()->random()->id,
         'name' => "Flavor" . rand(1, 50),
         'amount' => rand(0, 100),
-        'percentage' => rand(0, 100),
+        'percentage' => rand(0, 20),
         'type' => $types[$rand_keys],
         'grams' => rand(0, 25)
     ];
