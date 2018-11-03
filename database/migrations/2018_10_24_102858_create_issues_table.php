@@ -16,8 +16,7 @@ class CreateIssuesTable extends Migration
         Schema::create('issues', function (Blueprint $table) {
             $table->increments('id');
             $table->longText('text');
-//			$table->string('reportBack')->unique(); // If we want to notify user when issue is sorted.
-            $table->string('reportBack'); // db:seed on MariaDB must go with this line
+            $table->string('reportBack')->nullable();
             $table->integer('user_id')->nullable(); //User who created bug report
             $table->boolean(('resolved'));
             $table->integer('group_id')->unsigned(); // If we want to group issues someday...
