@@ -68,7 +68,7 @@ $router->group(
 // Accessible without login
 $router->group(
     [
-//        'middleware' => 'cors',
+        'middleware' => 'cors',
         'prefix' => 'api/v1'
     ],
     function () use ($router) {
