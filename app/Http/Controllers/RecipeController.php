@@ -115,7 +115,7 @@ class RecipeController extends Controller {
         $user = AuthController::getCurrentUser($request);
 		$recipe = Recipe::find($id);
 
-		if ($user->user_id !== $recipe->user_id) {
+		if ($user->user_id != $recipe->user_id) {
 
             return response("You can only edit your own recipes", 403);
 
