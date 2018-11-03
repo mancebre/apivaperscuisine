@@ -32,7 +32,7 @@
 // Logged in users
 $router->group(
     [
-        'middleware' => ['jwt.auth', 'myAuth'],
+        'middleware' => ['jwt.auth', 'myAuth', 'cors'],
         'prefix' => 'api/v1'
     ],
     function () use ($router) {
